@@ -43,8 +43,13 @@ class Factura{
     }
 
 
-    public boolean obtenerFecha(LocalDate cantidad) {
+    public boolean obtenerFechaAnterior(LocalDate cantidad) {
         return this.fechaFactura.isBefore(cantidad) ;
+    }
+
+
+    public boolean obtenerFechaPosterior(LocalDate cantidad) {
+        return this.fechaFactura.isAfter(cantidad) ;
     }
 
     public boolean obtenerStock(int cantidad) {
@@ -87,8 +92,11 @@ public class Main {
         List<Factura> obtenerStock = lista.stream().filter(c -> c.obtenerStock(0)).collect(Collectors.toList());
         obtenerStock.forEach( producto -> System.out.println("El producto " + producto.getDescripcion() + " Tiene " + producto.getStock() + " en stock") );
 
-        List<Factura> obtenerFechaMenor = lista.stream().filter(c -> c.obtenerFecha(LocalDate.now())).collect(Collectors.toList());
-        obtenerFechaMenor.forEach( producto -> System.out.println("El producto " + producto.getDescripcion() + " Fue vendido en la fecha " + producto.getFecha()) );
+        List<Factura> obtenerFechaAnterior = lista.stream().filter(c -> c.obtenerFechaAnterior(LocalDate.now())).collect(Collectors.toList());
+        obtenerFechaAnterior.forEach( producto -> System.out.println("El producto " + producto.getDescripcion() + " Fue vendido en la fecha " + producto.getFecha()) );
+
+        List<Factura> obtenerFechaPosterior = lista.stream().filter(c -> c.obtenerFechaPosterior(LocalDate.now())).collect(Collectors.toList());
+        obtenerFechaPosterior.forEach( producto -> System.out.println("El producto " + producto.getDescripcion() + " Fue vendido en la fecha " + producto.getFecha()) );
 
         Factura obtenerPorCodigo = lista.stream().filter( producto -> producto.getCodigoProducto() == "KAZ" ).findFirst().get();
         System.out.println("El producto " + obtenerPorCodigo.getDescripcion() + " coincide con el codigo");
